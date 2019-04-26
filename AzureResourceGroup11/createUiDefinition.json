@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+  "handler": "Microsoft.Compute.MultiVm",
+  "version": "0.1.2-preview",
+  "parameters": {
+    "basics": [
+      {
+        "name": "adminUsername",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "adminUsername",
+        "toolTip": "Admin username for the machine",
+        "osPlatform": "Linux",
+        "constraints": {
+          "required": true
+        }
+      },
+      {
+        "name": "adminPassword",
+        "type": "Microsoft.Common.PasswordBox",
+        "label": {
+          "password": "Password",
+          "confirmPassword": "Confirm password"
+        },
+        "toolTip": "",
+        "constraints": {
+          "required": true,
+          "regex": "",
+          "validationMessage": ""
+        },
+        "options": {
+          "hideConfirmation": false
+        },
+        "visible": true
+      }
+    ],
+    "steps": [
+      {
+        "name": "VirtualMachineConfig",
+        "label": "Virtual Machine Settings",
+        "subLabel": {
+          "preValidation": "Configure the virtual machine's resources and settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Virtual Machine Settings",
+        "elements": [
+          {
+            "name": "dnsNameForPublicIP",
+            "type": "Microsoft.Compute.UserNameTextBox",
+            "label": "dnsNameForPublicIP",
+            "toolTip": "DNS name for PublicIP",
+            "osPlatform": "Linux",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "ubuntuOSVersion",
+            "type": "Microsoft.Common.DropDown",
+            "label": "ubuntuOSVersion",
+            "defaultValue": "16.04-LTS",
+            "toolTip": "Select Ubuntu OS Verions",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "14.04.2-LTS",
+                  "value": "14.04.2-LTS"
+                },
+                {
+                  "label": "16.04-LTS",
+                  "value": "16.04-LTS"
+                }
+              ],
+              "required": true
+            },
+            "visible": true
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "adminUsername": "[basics('adminUsername')]",
+      "adminPassword": "[basics('adminPassword')]",
+      "dnsNameForPublicIP": "[steps('VirtualMachineConfig').dnsNameForPublicIP]",
+      "ubuntuOSVersion": "[steps('VirtualMachineConfig').ubuntuOSVersion]"
+    }
+  }
+}
